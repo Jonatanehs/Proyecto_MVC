@@ -3,7 +3,7 @@ package Modelo;
 public class Administrador {
     private String Admin = "Admin1";
     private String contra = "123456";
-    private int pregunta =0;
+    private String pregunta ="";
     private String test = "";
     private String respuesta1;
     private String respuesta2;
@@ -21,7 +21,7 @@ public class Administrador {
     public Administrador() {
     }
 
-    public Administrador(int pregunta, String test, String respuesta1, String respuesta2, String respuesta3, String correcta) {
+    public Administrador(String pregunta, String test, String respuesta1, String respuesta2, String respuesta3, String correcta) {
         this.pregunta = pregunta;
         this.test = test;
         this.respuesta1 = respuesta1;
@@ -77,11 +77,11 @@ public class Administrador {
         this.contra = contra;
     }
 
-    public int getPregunta() {
+    public String getPregunta() {
         return pregunta;
     }
 
-    public void setPregunta(int pregunta) {
+    public void setPregunta(String pregunta) {
         this.pregunta = pregunta;
     }
 
@@ -132,7 +132,8 @@ public class Administrador {
                         ". " + test  +
                         "\nA. " + respuesta1 +
                         "\nB. " + respuesta2 +
-                        "\nC. " + respuesta3 ;
+                        "\nC. " + respuesta3;
+
     }
     public String novedades() {
         return
