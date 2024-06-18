@@ -1,0 +1,20 @@
+{
+  "user1": {
+    "nombreApellido": "Gabriel",
+    "nombreUsuario": "gabriel",
+    "correo": "gabriel@gmail.com",
+    "contrasenia": "gabrielM2024$"
+  },
+  "user2": {
+    "nombreApellido": "Camilo Cortes",
+    "nombreUsuario": "camiloc",
+    "correo": "camiloc@hotmail.com",
+    "contrasenia": "camiloC2024@"
+  },
+  "userAd": {
+    "nombreApellido": "DMin",
+    "nombreUsuario": "admin1",
+    "correo": "admo@hotmail.com",
+    "contrasenia": "123456"
+  }
+}
