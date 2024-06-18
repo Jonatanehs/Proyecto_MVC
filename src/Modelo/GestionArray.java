@@ -1,34 +1,62 @@
 package Modelo;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 public class GestionArray {
     GestionTest test = new GestionTest();
     GestionContenido contenido = new GestionContenido();
-
-    private ArrayList<Usuario> listaUsuarios;
-
+    Usuario usuario = new Usuario();
+    static int contador = 1;
+    static LinkedHashMap<String, Usuario> listaUsuarios = new LinkedHashMap<>();
+    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public GestionArray(){
-        listaUsuarios = new ArrayList<>();
-        listaUsuarios.add(new Usuario("Camilo Perez", "camilop88", "camiloperez1988@gmail.com", "camilo123"));
-        listaUsuarios.add(new Usuario("Sandra Martinez", "sandramar99", "sandramartinez@hotmail.com", "sandra1999"));
+        listaUsuarios = new LinkedHashMap<>();
+        deserializar();
+        /*listaUsuarios.add(new Usuario("Camilo Perez", "camilop88", "camiloperez1988@gmail.com", "camilo123"));
+        listaUsuarios.add(new Usuario("Sandra Martinez", "sandramar99", "sandramartinez@hotmail.com", "sandra1999"));*/
     }
 
-    public ArrayList<Usuario> getListaUsuarios() {
+    public LinkedHashMap<String, Usuario> getListaUsuarios() {
         return listaUsuarios;
     }
 
-    public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
+    public void setListaUsuarios(LinkedHashMap<String, Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
 
-    public void registrarUsuario(Usuario usuario) {
-        listaUsuarios.add(usuario);
+    public String convertirAJson() {
+        return gson.toJson(listaUsuarios);
     }
 
+    public static void serializar() {
+        try (FileWriter nuevoJson = new FileWriter("usuarios.json")) {
+            gson.toJson(listaUsuarios, nuevoJson);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void deserializar() {
+        try (FileReader reader = new FileReader("usuarios.json")) {
+            Type tipoHashMap = new TypeToken<LinkedHashMap<String, Usuario>>() {}.getType();
+            listaUsuarios = gson.fromJson(reader, tipoHashMap);
+            if(listaUsuarios == null){
+                listaUsuarios = new LinkedHashMap<>();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean verificarNombreUsuario(String nombreUsuario){
-        for (Usuario user : listaUsuarios) {
+        for (Usuario user : listaUsuarios.values()) {
             if (user.getNombreUsuario().toLowerCase().equals(nombreUsuario)) {
                 return false;
             }
@@ -37,7 +65,7 @@ public class GestionArray {
     }
 
     public boolean verificarCorreo(String correo){
-        for (Usuario user : listaUsuarios) {
+        for (Usuario user : listaUsuarios.values()) {
             if (user.getCorreo().toLowerCase().equals(correo)) {
                 return false;
             }
@@ -45,12 +73,20 @@ public class GestionArray {
         return true;
     }
     public boolean verificacionContrasenia(String clave){
-        for (Usuario user : listaUsuarios) {
+        for (Usuario user : listaUsuarios.values()) {
             if (user.getContrasenia().equals(clave)) {
                 return true;
             }
         }
         return false;
+    }
+    private String generarClaveUsuario() {
+        return "user" + (contador++);
+    }
+    public void registrarUsuario(Usuario usuario) {
+        String nuevaClave = generarClaveUsuario();
+        listaUsuarios.put(nuevaClave, usuario);
+        serializar();
     }
     public boolean verificarCuenta(String usuario, String clave){
         boolean ingresado = false;
@@ -77,6 +113,12 @@ public class GestionArray {
                 return false;
             }
         }
+    }
+    public boolean verificarCorreoValido(String correo){
+        if (correo.contains("@") && correo.contains(".com")) {
+            return true;
+        }
+        return false;
     }
     public boolean verificarContrasenia(String clave) {
         boolean correcto = false;
@@ -107,70 +149,73 @@ public class GestionArray {
         }
         return correcto;
     }
-}
 
-class GestionTest {
-    Scanner x = new Scanner(System.in);
-    private ArrayList<Administrador> testUsuarios;
-
-    public GestionTest() {
-        Administrador administrador = new Administrador();
-        testUsuarios = new ArrayList<>();
-        testUsuarios.add(new Administrador(1, "¿Cuál de los siguientes números no pertenece a la serie: 2, 3, 5, 7, 11, 14, 17?",
-                "2", "14", "17", "B"));
-        testUsuarios.add(new Administrador(2, "Si el día después de mañana es tres días antes del domingo, ¿qué día es hoy?",
-                "Martes", "Miércoles", "Jueves", "C"));
-        testUsuarios.add(new Administrador(3, "Si en una carrera adelantas al segundo, ¿en qué posición terminas?",
-                "Primero", "Segundo", "Tercero", "B"));
-        testUsuarios.add(new Administrador(4, "Un avión se estrella en la frontera entre Estados Unidos y Canadá. ¿Dónde entierran a los supervivientes?",
-                "En Estados Unidos", "En Canadá", "No se entierran a los supervivientes", "C"));
-        testUsuarios.add(new Administrador(5, "¿Cuál es la mitad de dos más dos?",
-                "1", "2", "3", "C"));
-        testUsuarios.add(new Administrador(6, "Si tienes 8 manzanas y tomas 7, ¿cuántas tienes?",
-                "1", "7", "8", "B"));
-        testUsuarios.add(new Administrador(7, "¿Cuál de las siguientes palabras no encaja? Manzana, Naranja, Plátano, Pera, Coche.",
-                "Manzana", "Naranja", "Coche", "C"));
-        testUsuarios.add(new Administrador(8, "Si algunos Smaps son Traps y algunos Traps son Mrap, entonces algunos Smaps son definitivamente Mrap.",
-                "Verdadero", "Falso", "", "B"));
-        testUsuarios.add(new Administrador(9, "¿Cuál de los siguientes números no pertenece a la serie: 1, 2, 4, 8, 16, 32, 64, 128, 256, 500, 1000?",
-                "1", "500", "1000", "B"));
-
-    }
-}
-
-class GestionContenido {
-
-    Scanner x = new Scanner(System.in);
-    private ArrayList<Administrador> contenido;
-
-    public GestionContenido() {
-        Administrador admin = new Administrador();
-        contenido = new ArrayList<>();
-        contenido.add(new Administrador("PRUEBA", "NOVEDADES", "El tema se trata de comprobar las novedades"));
-        contenido.add(new Administrador("DOS", "ULTIMO", "quitar"));
-    }
-
-    public void mostrar() {
-        for (int i = contenido.size() - 1; i >= 0; i--) {
-            Administrador admin = contenido.get(i);
-            System.out.println(admin.novedades());
-        }
-    }
-
-    public boolean encuentro(String valor) {
-        boolean encontrado = false;
-
-        for (int i = 0; i < contenido.size(); i++) {
-            Administrador administrador = contenido.get(i);
-            if (administrador.getTitulo().equals(valor) || administrador.getSubtitulo().equals(valor)) {
-                encontrado = true;
-                System.out.println(administrador.novedades());
+    public String imprimirPerfil(String nameUser) {
+        String perfil = "";
+        for (Usuario user : listaUsuarios.values()) {
+            if (user.getNombreUsuario().toLowerCase().equals(nameUser.toLowerCase())) {
+                perfil = user.imprimirDatosPerfil();
             }
-
         }
-        if (encontrado == false) {
-            encontrado = false;
+        return perfil;
+    }
+    public boolean actualizarDatos(String nomUsuario, String dato, Object nuevoValor){
+        deserializar();
+        boolean datoActualizado = false;
+        for (Usuario user : listaUsuarios.values()) {
+            if(user.getNombreUsuario().equalsIgnoreCase(nomUsuario)) {
+                switch (dato.toLowerCase()) {
+                    case "nombre":
+                        user.setNombreApellido((String) nuevoValor);
+                        break;
+                    case "usuario":
+                        user.setNombreUsuario((String) nuevoValor);
+                        break;
+                    case "correo":
+                        user.setCorreo((String) nuevoValor);
+                        break;
+                    case "contraseña":
+                        user.setContrasenia((String) nuevoValor);
+                        break;
+                    default:
+                        return datoActualizado;
+                }
+                datoActualizado = true;
+                break;
+            }
         }
-        return encontrado;
+        if (datoActualizado) {
+            serializar();
+        }
+        return datoActualizado;
+    }
+    public boolean verificarUser(String nameUser){
+        boolean userEncontrado = false;
+        for (Usuario user : listaUsuarios.values()) {
+            if (user.getNombreUsuario().toLowerCase().equals(nameUser)) {
+                userEncontrado = true;
+            }
+        }
+        return userEncontrado;
+    }
+    public boolean eliminarCuenta(String respuesta, String nombreUser) {
+        if (respuesta.equalsIgnoreCase("si")) {
+            String claveAEliminar = null;
+            for (String clave : listaUsuarios.keySet()) {
+                Usuario user = listaUsuarios.get(clave);
+                if (user.getNombreUsuario().equalsIgnoreCase(nombreUser)) {
+                    claveAEliminar = clave;
+                    break;
+                }
+            }
+            if (claveAEliminar != null) {
+                listaUsuarios.remove(claveAEliminar);
+                serializar();
+                return true;
+            }
+        }
+        return false;
     }
 }
+
+
