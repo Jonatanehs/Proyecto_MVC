@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import javax.swing.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +30,6 @@ public class GestionTest {
             throw new RuntimeException(e);
         }
     }
-
     public void deserializar() {
         try (FileReader reader = new FileReader("test.json")) {
             Type type = new TypeToken<LinkedHashMap<String, Administrador>>() {}.getType();
@@ -42,7 +42,7 @@ public class GestionTest {
         }
     }
     public String agregar(Administrador a){
-        String mensaje = "Producto agregado";
+        String mensaje = JOptionPane.showInputDialog("Producto agregado");
         testUsuarios.put(a.getPregunta(),a);
         serializar();
         return  mensaje;
@@ -63,7 +63,6 @@ public class GestionTest {
         incorrectas+=numero1;
         return incorrectas;
     }
-
     public  String examen(String llave){
         String mostrar ="";
         Administrador admin = testUsuarios.get(llave);
@@ -76,11 +75,11 @@ public class GestionTest {
 
         if (respuesta.equals(admin.getCorrecta()) ){
             correcta(1);
-            res ="Es correcta";
+            res = JOptionPane.showInputDialog("Es correcta");
         }
         else {
             incorrecta(1);
-            res = "Es incorrecta";
+            res = JOptionPane.showInputDialog("Es incorrecta");
         }
         return res;
     }
@@ -89,9 +88,9 @@ public class GestionTest {
         int ic = incorrecta(0);
         String cor = "";
         if (cr>=7){
-            cor = "Felicidades pasaste el examen, explora nuestros modulos";
+            cor = JOptionPane.showInputDialog("Felicidades pasaste el examen, explora nuestros modulos");
         }else{
-            cor = "Intenta probar con nuestro modulo de logica";
+            cor = JOptionPane.showInputDialog("Intenta probar con nuestro modulo de logica");
         }
         return  cor;
     }
@@ -104,7 +103,6 @@ public class GestionTest {
         impr += admin.toString() +"\n";
 
         return  impr;
-
     }
     public  boolean comproba (String val){
         boolean esta = false;
@@ -125,7 +123,7 @@ public class GestionTest {
             if (adm.getPregunta().equalsIgnoreCase(pregunta)|| adm.getTest().equalsIgnoreCase(pregunta)){
                 preguntaAEliminar = ref;
                 testUsuarios.remove(preguntaAEliminar);
-                mensje = "Pregunta eliminada";
+                mensje = JOptionPane.showInputDialog("Pregunta eliminada");
             }
         }
         serializar();
