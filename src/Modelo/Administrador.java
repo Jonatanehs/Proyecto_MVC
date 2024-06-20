@@ -12,12 +12,13 @@ public class Administrador {
     private  String titulo;
     private String subtitulo;
     private  String tema;
+    private String tipoUsuario;
 
     public Administrador(String admin, String contra) {
         Admin = admin;
         this.contra = contra;
+        this.tipoUsuario = "admin";
     }
-
     public Administrador() {
     }
 
