@@ -8,6 +8,7 @@ public class InterfazAdministrador {
 
     public int menu(){
         int opc = 0;
+        System.out.println("\nMenú Administrador");
         System.out.println("1. Test\n2. Busqueda de usuarios");
         opc = x.nextInt();
 
@@ -56,12 +57,9 @@ public class InterfazAdministrador {
 
         System.out.println("1. Editar el test\n2. Añadir nueva pregunta" +
                 "\n3. Eliminar pregunta\n4. Buscar preguntas\n0. Volver al menu");
-
         opc = x.nextInt();
         return  opc;
-
     }
-
     public String seleccion(){
         System.out.println("Ingrese el numero de pregunta a cambiar");
         return  x.next();
