@@ -5,6 +5,7 @@ public class Usuario {
     private String nombreUsuario;
     private String correo;
     private String contrasenia;
+    private String tipoUsuario;
 
     public Usuario() {
     }
@@ -13,6 +14,7 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
         this.correo = correo;
         this.contrasenia = contrasenia;
+        this.tipoUsuario = "usuario";
     }
     public Usuario(String correo, String contrasenia) {
         this.correo = correo;
@@ -21,7 +23,6 @@ public class Usuario {
     public String getNombreApellido() {
         return nombreApellido;
     }
-
     public void setNombreApellido(String nombreApellido) {
         this.nombreApellido = nombreApellido;
     }
@@ -50,6 +51,13 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
     @Override
     public String toString() {
         return "\nMi perfil" +
