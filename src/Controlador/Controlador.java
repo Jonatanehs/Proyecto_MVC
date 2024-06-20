@@ -11,7 +11,9 @@ public class Controlador {
     GestionContenido contenido = new GestionContenido();
     InterfazUsuario vistaUsuario = new InterfazUsuario();
     InterfazAdministrador vistaAdmin = new InterfazAdministrador();
+
     public void Control(){
+        boolean salir = false;
         boolean control = true;
         while(control) {
             int opcion = vistaUsuario.menuPrincipal();
@@ -80,7 +82,6 @@ public class Controlador {
                         if (iniciarSesion) {
                             boolean esUsuario = listaUsuarios.verificarTipoUser(nameUsuario);
                             //vistaUsuario.imprimir("Tipo de usuario: " + (esUsuario ? "Usuario" : "Administrador"));
-                            boolean salir = false;
                             if (esUsuario) {
                                 while (!salir) {
                                     int opcionUsuario = vistaUsuario.interfazUsuario();
@@ -266,6 +267,7 @@ public class Controlador {
                     break;
                 case 3:
                     vistaUsuario.imprimir("Saliendo de la aplicación...");
+                    salir = true;
                     break;
                 default:
                     vistaUsuario.imprimir("Escoja una opción válida");
