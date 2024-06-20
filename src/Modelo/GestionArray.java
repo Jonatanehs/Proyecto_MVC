@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,13 +58,12 @@ public class GestionArray {
     }
     public boolean verificarNombreUsuario(String nombreUsuario){
         for (Usuario user : listaUsuarios.values()) {
-            if (user.getNombreUsuario().toLowerCase().equals(nombreUsuario)) {
+            if (user.getNombreUsuario().equalsIgnoreCase(nombreUsuario)) {
                 return false;
             }
         }
         return true;
     }
-
     public boolean verificarCorreo(String correo){
         for (Usuario user : listaUsuarios.values()) {
             if (user.getCorreo().toLowerCase().equals(correo)) {
@@ -83,7 +83,28 @@ public class GestionArray {
     private String generarClaveUsuario() {
         return "user" + (contador++);
     }
+    private void actualizarContador(){
+        int maxNumero = 0;
+        for(String clave: listaUsuarios.keySet()){
+            if (clave.startsWith("user")){
+                String numeroStr = clave.replace("user", "");
+                if(numeroStr.matches("\\d+")){
+                    try {
+                        int numero = Integer.parseInt(numeroStr);
+                        if(numero > maxNumero){
+                            maxNumero = numero;
+                        }
+                    }catch (NumberFormatException e){
+
+                    }
+                }
+            }
+        }
+        contador = maxNumero + 1;
+    }
     public void registrarUsuario(Usuario usuario) {
+        deserializar();
+        actualizarContador();
         String nuevaClave = generarClaveUsuario();
         listaUsuarios.put(nuevaClave, usuario);
         serializar();
@@ -91,6 +112,7 @@ public class GestionArray {
     public boolean verificarCuenta(String usuario, String clave){
         boolean ingresado = false;
         int ingreso = 0;
+
         for (char c: usuario.toCharArray()) {
             if (c == '@') {
                 ingreso +=1;
@@ -113,6 +135,18 @@ public class GestionArray {
                 return false;
             }
         }
+    }
+    public boolean verificarTipoUser(String nameUsuario) {
+        boolean tipoUsuario = false;
+        for (Usuario usuario : listaUsuarios.values()) {
+            if (usuario.getNombreUsuario().equals(nameUsuario)) {
+                if (usuario.getTipoUsuario().equals("usuario")) {
+                    tipoUsuario = true;
+                    break;
+                }
+            }
+        }
+        return tipoUsuario;
     }
     public boolean verificarCorreoValido(String correo){
         if (correo.contains("@") && correo.contains(".com")) {
@@ -149,7 +183,6 @@ public class GestionArray {
         }
         return correcto;
     }
-
     public String imprimirPerfil(String nameUser) {
         String perfil = "";
         for (Usuario user : listaUsuarios.values()) {
