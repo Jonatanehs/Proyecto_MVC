@@ -250,5 +250,3 @@ public class GestionArray {
         return false;
     }
 }
-
-
