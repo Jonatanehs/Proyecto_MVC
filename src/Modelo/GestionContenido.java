@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class GestionContenido {
 
-    Scanner x = new Scanner(System.in);
     public static LinkedHashMap<String, Administrador> contenido = new LinkedHashMap<>();
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     int contador = 0;
@@ -48,9 +47,30 @@ public class GestionContenido {
         }
     }
     private String generarClaveNovedad() {
-        return "user" + (contador++);
+        return "nov" + (contador++);
+    }
+    private void actualizarContador(){
+        int maxNumero = 0;
+        for(String clave: contenido.keySet()){
+            if (clave.startsWith("nov")){
+                String numeroStr = clave.replace("nov", "");
+                if(numeroStr.matches("\\d+")){
+                    try {
+                        int numero = Integer.parseInt(numeroStr);
+                        if(numero > maxNumero){
+                            maxNumero = numero;
+                        }
+                    }catch (NumberFormatException e){
+
+                    }
+                }
+            }
+        }
+        contador = maxNumero + 1;
     }
     public void registrarNovedad(Administrador admin) {
+        deserializar();
+        actualizarContador();
         String nuevaClave = generarClaveNovedad();
         contenido.put(nuevaClave, admin);
         serializar();
@@ -70,7 +90,6 @@ public class GestionContenido {
         }
         return encontrado;
     }
-
 
    /* public void eliminar(String eliminar) {
         boolean encuentro = encuentro(eliminar);
