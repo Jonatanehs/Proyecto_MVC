@@ -1,20 +1,16 @@
 {
-  "user1": {
-    "nombreApellido": "Gabriel",
-    "nombreUsuario": "gabriel",
-    "correo": "gabriel@gmail.com",
-    "contrasenia": "gabrielM2024$"
-  },
-  "user2": {
-    "nombreApellido": "Camilo Cortes",
-    "nombreUsuario": "camiloc",
-    "correo": "camiloc@hotmail.com",
-    "contrasenia": "camiloC2024@"
-  },
   "userAd": {
     "nombreApellido": "DMin",
     "nombreUsuario": "admin1",
     "correo": "admo@hotmail.com",
-    "contrasenia": "123456"
+    "contrasenia": "123456",
+    "tipoUsuario": "admin"
+  },
+  "user1": {
+    "nombreApellido": "Camilo Perez",
+    "nombreUsuario": "camilop",
+    "correo": "camilop@gmail.com",
+    "contrasenia": "camiloP2024$",
+    "tipoUsuario": "usuario"
   }
 }
