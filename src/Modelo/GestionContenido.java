@@ -9,151 +9,122 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
-import java.util.Scanner;
 
 public class GestionContenido {
+    static LinkedHashMap<String,Administrador> contenido = new LinkedHashMap<>();
 
-    public static LinkedHashMap<String, Administrador> contenido = new LinkedHashMap<>();
-    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    int contador = 0;
-    public GestionContenido() {
-        Administrador admin = new Administrador();
+    Gson json = new GsonBuilder().setPrettyPrinting().create();
+
+    public GestionContenido(){
+        Administrador adm = new Administrador();
         contenido = new LinkedHashMap<>();
-        /*contenido.add(new Administrador("PRUEBA", "NOVEDADES", "El tema se trata de comprobar las novedades"));
-        contenido.add(new Administrador("DOS", "ULTIMO", "quitar"));*/
+        deserializar();
     }
-    public static void serializar() {
-        try (FileWriter nuevoJson = new FileWriter("contenido.json")) {
-            gson.toJson(contenido, nuevoJson);
+
+    public void serializar() {
+        try (FileWriter writer = new FileWriter("contenido.json")) {
+            json.toJson(contenido, writer);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void deserializar() {
-        try (FileReader reader = new FileReader("usuarios.json")) {
-            Type tipoHashMap = new TypeToken<LinkedHashMap<String, Administrador>>() {}.getType();
-            contenido = gson.fromJson(reader, tipoHashMap);
-            if(contenido== null){
+    public void deserializar() {
+        try (FileReader reader = new FileReader("contenido.json")) {
+            Type type = new TypeToken<LinkedHashMap<String, Administrador>>() {}.getType();
+            contenido = json.fromJson(reader, type);
+            if (contenido == null){
                 contenido = new LinkedHashMap<>();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void mostrar() {
-        for (int i = contenido.size() - 1; i >= 0; i--) {
-            Administrador admin = contenido.get(i);
-
-        }
-    }
-    private String generarClaveNovedad() {
-        return "nov" + (contador++);
-    }
-    private void actualizarContador(){
-        int maxNumero = 0;
-        for(String clave: contenido.keySet()){
-            if (clave.startsWith("nov")){
-                String numeroStr = clave.replace("nov", "");
-                if(numeroStr.matches("\\d+")){
-                    try {
-                        int numero = Integer.parseInt(numeroStr);
-                        if(numero > maxNumero){
-                            maxNumero = numero;
-                        }
-                    }catch (NumberFormatException e){
-
-                    }
-                }
-            }
-        }
-        contador = maxNumero + 1;
-    }
-    public void registrarNovedad(Administrador admin) {
-        deserializar();
-        actualizarContador();
-        String nuevaClave = generarClaveNovedad();
-        contenido.put(nuevaClave, admin);
+    public String agregar(String clave,Administrador a){
+        String mensaje = "Producto agregado";
+        contenido.put(clave,a);
         serializar();
+        return  mensaje;
     }
-    public boolean encuentro(String valor) {
-        boolean encontrado = false;
 
-        for (int i = 0; i < contenido.size(); i++) {
-            Administrador administrador = contenido.get(i);
-            if (administrador.getTitulo().equals(valor) || administrador.getSubtitulo().equals(valor)) {
-                encontrado = true;
-                System.out.println(administrador.novedades());
+    public boolean comprobar(String valor){
+        return  contenido.containsKey(valor);
+    }
+    public  boolean comproba (String val){
+        boolean esta = false;
+        new GestionTest().deserializar();
+        for (Administrador p: contenido.values()){
+            if (val.equals(p.getTitulo()) || val.equals(p.getSubtitulo())){
+                esta = true;
+                break;
             }
-        }
-        if (encontrado == false) {
-            encontrado = false;
-        }
-        return encontrado;
-    }
 
-   /* public void eliminar(String eliminar) {
-        boolean encuentro = encuentro(eliminar);
-        if (encuentro) {
-            for (int i = 0; i < contenido.size(); i++) {
-                Administrador admin = contenido.get(i);
-                if (admin.getTitulo().equals(eliminar) || admin.getSubtitulo().equals(eliminar)) {
-                    System.out.println("Seguro que deseas eliminar esta Novedad? S/N");
-                    String respuesta = x.next().toUpperCase();
-                    if (respuesta.equals("S")) {
-                        contenido.remove(i);
-                        System.out.println("La novedad se ha eliminado correctamente");
-                    } else {
-                        System.out.println("La novedad no se ha eliminado");
-                    }
+        }
+        return esta;
+    }
+    public  boolean actualizar(String actu, int dato, Object nuevo){
+        deserializar();
+        boolean test = false;
+        for (Administrador adm: contenido.values()){
+            if (adm.getTitulo().equalsIgnoreCase(actu)|| adm.getSubtitulo().equalsIgnoreCase(actu)){
+                switch (dato){
+                    case 1:
+                        adm.setTitulo(((String) nuevo).toUpperCase());
+                        break;
+                    case 2:
+                        adm.setSubtitulo(((String) nuevo).toUpperCase());
+                        break;
+                    case 3:
+                        adm.setTema((String) nuevo);
+                        break;
+
+                    default:
+                        return false;
                 }
+                test = true;
+                break;
             }
-        } else {
-            System.out.println("La novedad no existe");
         }
+        if (test){
+            serializar();
+
+        }
+        return test;
     }
 
-    public void editar(String editar) {
-        boolean encontrado = encuentro(editar);
-        if (encontrado) {
-
-            for (Administrador contenidos : contenido) {
-                if (contenidos.getTitulo().equals(editar) || contenidos.getSubtitulo().equals(editar)) {
-                    System.out.println("Seleccione los datos a cambiar" +
-                            "\n1.Titulo \n2.Subtitulo  \n3.Tema ");
-                    int cambio = x.nextInt();
-                    switch (cambio) {
-                        case 1:
-                            x.nextLine();
-                            System.out.println("Ingrese el nuevo titulo");
-                            String pregunta = x.nextLine().toUpperCase();
-                            contenidos.setTitulo(pregunta);
-                            System.out.println("El titulo se ha cambiado con exito");
-                            break;
-                        case 2:
-                            // x.nextLine();
-                            System.out.println("Ingrese el nuevo subtitulo");
-                            String respuesta1 = x.nextLine().toUpperCase();
-                            contenidos.setSubtitulo(respuesta1);
-                            System.out.println("El subtitulo se ha cambiado con exito");
-                            break;
-                        case 3:
-                            // x.nextLine();
-                            System.out.println("Ingrese el nuevo tema");
-                            String respuesta2 = x.nextLine();
-                            contenidos.setTema(respuesta2);
-                            System.out.println("El tema se ha cambiado con exito");
-                            break;
-
-                        default:
-                            System.out.println("No es una opcion valida");
-                            break;
-                    }
-                }
+    public  boolean eliminarProducto(String producto) {
+        String claveAEliminar;
+        for (String clave : contenido.keySet()) {
+            Administrador prod = contenido.get(clave);
+            if (prod.getTitulo().equalsIgnoreCase(producto) || prod.getSubtitulo().equalsIgnoreCase(producto)) {
+                claveAEliminar = clave;
+                contenido.remove(claveAEliminar);
+                serializar();
+                return true;
             }
-        } else {
-            System.out.println("El tema no existe");
+
         }
+        serializar();
+        return false;
     }
 
-    */
+    public String mostrar(String pr){
+        String nota = "";
+        for ( String kl: contenido.keySet()){
+            Administrador prod = contenido.get(kl);
+            if (prod.getTitulo().equalsIgnoreCase(pr) || prod.getSubtitulo().equalsIgnoreCase(pr)){
+                nota = prod.novedades();
+            }
+        }
+        return  nota;
+    }
+    public String mostra(){
+        String nota = "";
+        String[] keys = contenido.keySet().toArray(new String[0]);
+        for (int i = keys.length - 1; i >= 0; i--) {
+            Administrador prod = contenido.get(keys[i]);
+            nota += prod.novedades() + "\n";
+        }
+        return nota;
+    }
+
 }
