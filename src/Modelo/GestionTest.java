@@ -4,17 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import javax.swing.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.LinkedHashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class GestionTest {
+    private int respuestasCorrectas = 0;
+    private int respuestasIncorrectas = 0;
+
     Scanner x = new Scanner(System.in);
     static LinkedHashMap<String, Administrador> testUsuarios = new LinkedHashMap<>();
+    List<String> numeros = new ArrayList<String>();
+
 
     Gson json = new GsonBuilder().setPrettyPrinting().create();
 
@@ -23,6 +26,11 @@ public class GestionTest {
         testUsuarios = new LinkedHashMap<>();
         deserializar();
     }
+    public void organizar() {
+        numeros.clear();
+        numeros.addAll(testUsuarios.keySet());
+        Collections.shuffle(numeros);
+    }
     public void serializar() {
         try (FileWriter writer = new FileWriter("test.json")) {
             json.toJson(testUsuarios, writer);
@@ -30,6 +38,7 @@ public class GestionTest {
             throw new RuntimeException(e);
         }
     }
+
     public void deserializar() {
         try (FileReader reader = new FileReader("test.json")) {
             Type type = new TypeToken<LinkedHashMap<String, Administrador>>() {}.getType();
@@ -42,7 +51,7 @@ public class GestionTest {
         }
     }
     public String agregar(Administrador a){
-        String mensaje = JOptionPane.showInputDialog("Producto agregado");
+        String mensaje = "Producto agregado";
         testUsuarios.put(a.getPregunta(),a);
         serializar();
         return  mensaje;
@@ -51,48 +60,50 @@ public class GestionTest {
     public boolean comprobar(String valor){
         return  testUsuarios.containsKey(valor);
     }
-    public int correcta(int numero){
-        int numero1 = numero;
-        int correctas = 0;
-        correctas+=numero1;
-        return correctas;
+    public int correcta() {
+        respuestasCorrectas++;
+        return respuestasCorrectas;
     }
-    public int incorrecta(int numero){
-        int numero1 = numero;
-        int incorrectas = 0;
-        incorrectas+=numero1;
-        return incorrectas;
+
+    public int incorrecta() {
+        respuestasIncorrectas++;
+        return respuestasIncorrectas;
     }
-    public  String examen(String llave){
-        String mostrar ="";
-        Administrador admin = testUsuarios.get(llave);
-        mostrar += admin.toString() +"\n";
+
+    public String examen(String llave, String recibo) {
+        String mostrar = "";
+        int indice = Integer.parseInt(llave);
+        String orden = String.valueOf(numeros.get(indice));
+        Administrador admin = testUsuarios.get(orden);
+        admin.setPregunta(recibo);
+        mostrar += admin.toString() + "\n";
         return mostrar;
     }
-    public String respuestas(String llave, String respuesta){
-        String res = "";
-        Administrador admin = testUsuarios.get(llave);
 
-        if (respuesta.equals(admin.getCorrecta()) ){
-            correcta(1);
-            res = JOptionPane.showInputDialog("Es correcta");
-        }
-        else {
-            incorrecta(1);
-            res = JOptionPane.showInputDialog("Es incorrecta");
+    public String respuestas(String llave, String respuesta) {
+        String res = "";
+        int indice = Integer.parseInt(llave);
+        String orden = String.valueOf(numeros.get(indice));
+        Administrador admin = testUsuarios.get(orden);
+
+        if (respuesta.equals(admin.getCorrecta())) {
+            correcta();
+            res = "Es correcta";
+        } else {
+            incorrecta();
+            res = "Es incorrecta";
         }
         return res;
     }
-    public String cantidad(){
-        int cr = correcta(0);
-        int ic = incorrecta(0);
+
+    public String cantidad() {
         String cor = "";
-        if (cr>=7){
-            cor = JOptionPane.showInputDialog("Felicidades pasaste el examen, explora nuestros modulos");
-        }else{
-            cor = JOptionPane.showInputDialog("Intenta probar con nuestro modulo de logica");
+        if (respuestasCorrectas >= 7) {
+            cor = "Felicidades pasaste el examen, explora nuestros módulos";
+        } else {
+            cor = "Intenta probar con nuestro módulo de lógica";
         }
-        return  cor;
+        return cor;
     }
     public int tamanio (){
         return testUsuarios.size();
@@ -103,6 +114,7 @@ public class GestionTest {
         impr += admin.toString() +"\n";
 
         return  impr;
+
     }
     public  boolean comproba (String val){
         boolean esta = false;
@@ -117,52 +129,53 @@ public class GestionTest {
     }
     public String eliminar(String pregunta){
         String mensje = "";
-        String preguntaAEliminar;
-        for (String ref: testUsuarios.keySet()){
-            Administrador adm = testUsuarios.get(ref);
-            if (adm.getPregunta().equalsIgnoreCase(pregunta)|| adm.getTest().equalsIgnoreCase(pregunta)){
-                preguntaAEliminar = ref;
-                testUsuarios.remove(preguntaAEliminar);
-                mensje = JOptionPane.showInputDialog("Pregunta eliminada");
-            }
-        }
+
+        Administrador adm = testUsuarios.get(pregunta);
+
+        testUsuarios.remove(pregunta);
+        mensje = "Pregunta eliminada";
+
+
+
         serializar();
         return mensje;
 
     }
 
-    public  boolean actualizar(String actu, int dato, Object nuevo){
+
+    public boolean actualizar(String actu, int dato, Object nuevo) {
         new GestionTest().deserializar();
         boolean test = false;
-        for (Administrador adm: testUsuarios.values()){
-            if (adm.getTest().equalsIgnoreCase(actu)|| adm.getPregunta().equalsIgnoreCase(actu)){
-                switch (dato){
-                    case 1:
-                        adm.setTest((String) nuevo);
-                        break;
-                    case 2:
-                        adm.setRespuesta1((String) nuevo);
-                        break;
-                    case 3:
-                        adm.setRespuesta2((String) nuevo);
-                        break;
-                    case 4:
-                        adm.setRespuesta3((String) nuevo);
-                        break;
-                    case 5:
-                        adm.setCorrecta((String) nuevo);
-                        break;
-                    default:
-                        return false;
-                }
-                test = true;
+
+        Administrador adm = testUsuarios.get(actu);
+
+        if (adm == null) {
+
+            return false;
+        }
+        switch (dato) {
+            case 1:
+                adm.setTest((String) nuevo);
                 break;
-            }
+            case 2:
+                adm.setRespuesta1((String) nuevo);
+                break;
+            case 3:
+                adm.setRespuesta2((String) nuevo);
+                break;
+            case 4:
+                adm.setRespuesta3((String) nuevo);
+                break;
+            case 5:
+                adm.setCorrecta((String) nuevo);
+                break;
+            default:
+                return false;
         }
-        if (test){
-            serializar();
-        }
-        return test;
+
+
+        serializar();
+        return true;
     }
 
 }
