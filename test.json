@@ -1,76 +1,74 @@
-
 {
   "1": {
-    "id": 1,
-    "pregunta": "¿Cuál de los siguientes números no pertenece a la serie: 2, 3, 5, 7, 11, 14, 17?",
+    "pregunta": "",
+    "test": "¿Cuál de los siguientes números no pertenece a la serie: 2, 3, 5, 7, 11, 14, 17?",
     "respuesta1": "2",
     "respuesta2": "14",
     "respuesta3": "17",
     "correcta": "B"
   },
   "2": {
-    "id": 2,
-    "pregunta": "Si el día después de mañana es tres días antes del domingo, ¿qué día es hoy?",
+    "pregunta": "",
+    "test": "Si el día después de mañana es tres días antes del domingo, ¿qué día es hoy?",
     "respuesta1": "Martes",
     "respuesta2": "Miércoles",
     "respuesta3": "Jueves",
     "correcta": "C"
   },
   "3": {
-    "id": 3,
-    "pregunta": "Si en una carrera adelantas al segundo, ¿en qué posición terminas?",
+    "pregunta": "",
+    "test": "Si en una carrera adelantas al segundo, ¿en qué posición terminas?",
     "respuesta1": "Primero",
     "respuesta2": "Segundo",
     "respuesta3": "Tercero",
     "correcta": "B"
   },
-  "4": {
-    "id": 4,
-    "pregunta": "Un avión se estrella en la frontera entre Estados Unidos y Canadá. ¿Dónde entierran a los supervivientes?",
-    "respuesta1": "En Estados Unidos",
-    "respuesta2": "En Canadá",
-    "respuesta3": "No se entierran a los supervivientes",
-    "correcta": "C"
-  },
   "5": {
-    "id": 5,
-    "pregunta": "¿Cuál es la mitad de dos más dos?",
+    "pregunta": "",
+    "test": "¿Cuál es la mitad de dos más dos?",
     "respuesta1": "1",
     "respuesta2": "2",
     "respuesta3": "3",
     "correcta": "C"
   },
   "6": {
-    "id": 6,
-    "pregunta": "Si tienes 8 manzanas y tomas 7, ¿cuántas tienes?",
+    "pregunta": "",
+    "test": "Si tienes 8 manzanas y tomas 7, ¿cuántas tienes?",
     "respuesta1": "1",
     "respuesta2": "7",
     "respuesta3": "8",
     "correcta": "B"
   },
   "7": {
-    "id": 7,
-    "pregunta": "¿Cuál de las siguientes palabras no encaja? Manzana, Naranja, Plátano, Pera, Coche.",
+    "pregunta": "",
+    "test": "¿Cuál de las siguientes palabras no encaja? Manzana, Naranja, Plátano, Pera, Coche.",
     "respuesta1": "Manzana",
     "respuesta2": "Naranja",
     "respuesta3": "Coche",
     "correcta": "C"
   },
   "8": {
-    "id": 8,
-    "pregunta": "Si algunos Smaps son Traps y algunos Traps son Mrap, entonces algunos Smaps son definitivamente Mrap.",
+    "pregunta": "",
+    "test": "Si algunos Smaps son Traps y algunos Traps son Mrap, entonces algunos Smaps son definitivamente Mrap.",
     "respuesta1": "Verdadero",
     "respuesta2": "Falso",
     "respuesta3": "",
     "correcta": "B"
   },
   "9": {
-    "id": 9,
-    "pregunta": "¿Cuál de los siguientes números no pertenece a la serie: 1, 2, 4, 8, 16, 32, 64, 128, 256, 500, 1000?",
+    "pregunta": "",
+    "test": "¿Cuál de los siguientes números no pertenece a la serie: 1, 2, 4, 8, 16, 32, 64, 128, 256, 500, 1000?",
     "respuesta1": "1",
     "respuesta2": "500",
     "respuesta3": "1000",
     "correcta": "B"
+  },
+  "11": {
+    "pregunta": "",
+    "test": "cuanto es 2 + 2",
+    "respuesta1": "4",
+    "respuesta2": "2",
+    "respuesta3": "3",
+    "correcta": "A"
   }
 }
-
