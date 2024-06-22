@@ -158,9 +158,13 @@ public class Controlador {
                                             break;
                                         case 4:
                                             int ingreso = test.tamanio();
-                                            for (int i = 1; i < ingreso + 1; i++) {
+                                            test.organizar();
+                                            int llave = 0;
+                                            for (int i = 0; i <ingreso; i++) {
+                                                llave +=1;
+                                                String numeropregunta = String.valueOf(llave);
                                                 String in = String.valueOf(i);
-                                                vistaAdmin.imprimir(test.examen(in));
+                                                vistaAdmin.imprimir(test.examen(in,numeropregunta));
                                                 vistaAdmin.imprimir(test.respuestas(in, vistaAdmin.respuestas()));
                                             }
                                             vistaAdmin.imprimir(test.cantidad());
@@ -184,10 +188,16 @@ public class Controlador {
                                             }
                                             break;
                                         case 7:
-                                            contenido.mostrar();
+                                            vistaUsuario.imprimir( contenido.mostra());
                                             break;
                                         case 8:
-                                            contenido.encuentro(vistaUsuario.buscarNovedad());
+                                            String termino = vistaAdmin.busc();
+                                            boolean comprobado = contenido.comproba(termino);
+                                            if (comprobado) {
+                                                vistaAdmin.imprimir(contenido.mostrar(termino));
+                                            }else{
+                                                vistaAdmin.imprimir("Novedad no encontrada");
+                                            }
                                             break;
                                         case 0:
                                             vistaUsuario.imprimir("Saliendo de la aplicación...");
@@ -220,7 +230,7 @@ public class Controlador {
                                                     boolean comprobacio = test.comprobar(pregunta);
 
                                                     if (!comprobacio) {
-                                                        Administrador ad = new Administrador(pregunta, vistaAdmin.preguntas(), vistaAdmin.respuestas1(), vistaAdmin.respuestas2(), vistaAdmin.respuestas3(), vistaAdmin.respuestas());
+                                                        Administrador ad = new Administrador("", vistaAdmin.preguntas(), vistaAdmin.respuestas1(), vistaAdmin.respuestas2(), vistaAdmin.respuestas3(), vistaAdmin.respuestas());
                                                         test.agregar(ad);
                                                     } else {
                                                         vistaAdmin.imprimir("La pregunta ya existe");
@@ -231,7 +241,7 @@ public class Controlador {
                                                     comprobacio = test.comprobar(pregunta);
                                                     if (comprobacio) {
                                                         test.eliminar(pregunta);
-                                                        vistaAdmin.imprimir("Pregunta eliminada");
+                                                        vistaAdmin.imprimir("Pregunta eliminado");
                                                     } else {
                                                         vistaAdmin.imprimir("No existe la pregunta");
                                                     }
@@ -245,17 +255,63 @@ public class Controlador {
                                                         vistaAdmin.imprimir("La pregunta no existe");
                                                     }
                                                     break;
-                                                default:
-                                                    vistaAdmin.imprimir("Opción no válida.");
-                                                    break;
+
                                             }
                                             break;
                                         case 2:
                                             vistaAdmin.imprimir(listaUsuarios.imprimirPerfil(vistaAdmin.usu()));
                                             break;
                                         case 3:
-                                            salir = true;
+                                            int inicio = vistaAdmin.contenido();
+                                            switch (inicio) {
+                                                case 1:
+                                                    String dato = vistaAdmin.actualizar();
+                                                    boolean comprobacion = contenido.comproba(dato);
+                                                    if (!comprobacion) {
+                                                        vistaAdmin.imprimir("La novedad no existe");
+                                                    } else {
+                                                        int f = vistaAdmin.cambio();
+                                                        String n = vistaAdmin.actualizado();
+                                                        contenido.actualizar(dato, f, n);
+                                                        vistaAdmin.imprimir("Producto actualizado");
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    String pregunta = vistaAdmin.clave();
+                                                    String tit = vistaAdmin.titulo();
+                                                    String subt = vistaAdmin.subtitulo();
+                                                    boolean comprobacio = contenido.comprobar(pregunta);
+                                                    boolean comproba =contenido.comproba(tit);
+                                                    boolean compro = contenido.comproba(subt);
+
+
+                                                    if (!comprobacio || !comproba || !compro) {
+                                                        Administrador ad = new Administrador(tit, subt, vistaAdmin.conten());
+                                                        vistaAdmin.imprimir( contenido.agregar(pregunta, ad));
+                                                    } else {
+                                                        vistaAdmin.imprimir("La pregunta ya existe");
+                                                    }
+                                                    break;
+
+                                                case 3:
+                                                    dato = vistaAdmin.elim();
+                                                    comprobacion = contenido.eliminarProducto(dato);
+                                                    if (comprobacion){
+                                                        vistaAdmin.imprimir("El producto fue eliminado");
+                                                    }else{
+                                                        vistaAdmin.imprimir("El producto no existe");
+                                                    }
+                                                case 4:
+                                                    String termino = vistaAdmin.busc();
+                                                    boolean comprobado = contenido.comproba(termino);
+                                                    if (comprobado) {
+                                                        vistaAdmin.imprimir(contenido.mostrar(termino));
+                                                    }else{
+                                                        vistaAdmin.imprimir("Novedad no encontrada");
+                                                    }
+                                            }
                                             break;
+
                                         default:
                                             vistaAdmin.imprimir("Escoja una opción válida");
                                             break;
@@ -265,7 +321,7 @@ public class Controlador {
                         }
                     } while (!iniciarSesion);
                     break;
-                case 3:
+                case 4:
                     vistaUsuario.imprimir("Saliendo de la aplicación...");
                     salir = true;
                     break;
@@ -276,3 +332,4 @@ public class Controlador {
         }
     }
 }
+
