@@ -1,8 +1,6 @@
 package Modelo;
 
 public class Administrador {
-    private String Admin = "Admin1";
-    private String contra = "123456";
     private String pregunta ="";
     private String test = "";
     private String respuesta1;
@@ -14,11 +12,7 @@ public class Administrador {
     private  String tema;
     private String tipoUsuario;
 
-    public Administrador(String admin, String contra) {
-        Admin = admin;
-        this.contra = contra;
-        this.tipoUsuario = "admin";
-    }
+
     public Administrador() {
     }
 
@@ -59,23 +53,6 @@ public class Administrador {
 
     public void setTema(String tema) {
         this.tema = tema;
-    }
-
-    public String getAdmin() {
-        return Admin;
-    }
-
-
-    public void setAdmin(String admin) {
-        Admin = admin;
-    }
-
-    public String getContra() {
-        return contra;
-    }
-
-    public void setContra(String contra) {
-        this.contra = contra;
     }
 
     public String getPregunta() {
