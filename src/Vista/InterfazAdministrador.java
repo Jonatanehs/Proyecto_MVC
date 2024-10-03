@@ -7,7 +7,8 @@ public class InterfazAdministrador {
     public int menu() {
         int opc = 0;
         try {
-            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "\nMenú Administrador \n1. Test \n2. Busqueda de usuarios\n3. Contenidos"));
+            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "\nMenú Administrador " +
+                    "\n1. Test \n2. Busqueda de usuarios\n3. Contenidos \n0. Salir"));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: debe ingresar solo números.");
         }
@@ -55,7 +56,8 @@ public class InterfazAdministrador {
     public int seleccio() {
         int opc = 0;
         try {
-            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "1. Pregunta\n2. Respuesta 1 \n3. Respuesta 2\n4. Respuesta 3\n5. Respuesta correcta"));
+            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "1. Pregunta\n2. Respuesta " +
+                    "1 \n3. Respuesta 2\n4. Respuesta 3\n5. Respuesta correcta"));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: debe ingresar solo números.");
         }
