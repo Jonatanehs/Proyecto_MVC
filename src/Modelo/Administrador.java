@@ -12,7 +12,6 @@ public class Administrador {
     private  String tema;
     private String tipoUsuario;
 
-
     public Administrador() {
     }
 
