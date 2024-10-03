@@ -57,7 +57,6 @@ public class GestionContenido {
                 esta = true;
                 break;
             }
-
         }
         return esta;
     }
