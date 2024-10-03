@@ -25,17 +25,17 @@ public class Controlador {
                     boolean nombreUsuarioDisponible;
                     do {
                         nombreUsuarioDisponible = listaUsuarios.verificarNombreUsuario(nombreUsu = vistaUsuario.nombreUsuarioRegis());
-                        if (!nombreUsuarioDisponible) {
+                        if (nombreUsuarioDisponible) {
                             vistaUsuario.imprimir("El nombre de usuario ya está en uso");
                         } else {
                             vistaUsuario.imprimir("Nombre de usuario disponible");
                         }
-                    } while (!nombreUsuarioDisponible);
+                    } while (nombreUsuarioDisponible);
                     String correo;
                     boolean correoEncontrado;
                     do {
                         correoEncontrado = listaUsuarios.verificarCorreo(correo = vistaUsuario.correoRegis());
-                        if (!correoEncontrado) {
+                        if (correoEncontrado) {
                             vistaUsuario.imprimir("El correo ya está en uso");
                         }
                         boolean correoValido;
@@ -48,7 +48,7 @@ public class Controlador {
                                 correo = vistaUsuario.correoRegis();
                             }
                         } while (!correoValido);
-                    } while (!correoEncontrado);
+                    } while (correoEncontrado);
                     String clave;
                     String regex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!#$%&]).{8,}$";
                     do {
@@ -80,9 +80,8 @@ public class Controlador {
                             }
                         }
                         if (iniciarSesion) {
-                            boolean esUsuario = listaUsuarios.verificarTipoUser(nameUsuario);
-                            //vistaUsuario.imprimir("Tipo de usuario: " + (esUsuario ? "Usuario" : "Administrador"));
-                            if (esUsuario) {
+                            String tipoUsuario = listaUsuarios.verificarTipoUser(nameUsuario);
+                            if ("usuario".equals(tipoUsuario)) {
                                 while (!salir) {
                                     int opcionUsuario = vistaUsuario.interfazUsuario();
                                     switch (opcionUsuario) {
@@ -208,7 +207,7 @@ public class Controlador {
                                             break;
                                     }
                                 }
-                            }else {
+                            }else if ("admin".equals(tipoUsuario)){
                                 while (!salir) {
                                     int opc = vistaAdmin.menu();
                                     switch (opc) {
@@ -255,7 +254,6 @@ public class Controlador {
                                                         vistaAdmin.imprimir("La pregunta no existe");
                                                     }
                                                     break;
-
                                             }
                                             break;
                                         case 2:
@@ -311,7 +309,9 @@ public class Controlador {
                                                     }
                                             }
                                             break;
-
+                                        case 0:
+                                            salir = true;
+                                            break;
                                         default:
                                             vistaAdmin.imprimir("Escoja una opción válida");
                                             break;
