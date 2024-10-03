@@ -172,8 +172,6 @@ public class GestionTest {
             default:
                 return false;
         }
-
-
         serializar();
         return true;
     }
