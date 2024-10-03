@@ -1,7 +1,7 @@
 package Modelo;
 
 public class Usuario {
-    private String nombreApellido;
+    private String nombre;
     private String nombreUsuario;
     private String correo;
     private String contrasenia;
@@ -9,8 +9,8 @@ public class Usuario {
 
     public Usuario() {
     }
-    public Usuario(String nombreApellido, String nombreUsuario, String correo, String contrasenia) {
-        this.nombreApellido = nombreApellido;
+    public Usuario(String nombre, String nombreUsuario, String correo, String contrasenia) {
+        this.nombre = nombre;
         this.nombreUsuario = nombreUsuario;
         this.correo = correo;
         this.contrasenia = contrasenia;
@@ -20,11 +20,11 @@ public class Usuario {
         this.correo = correo;
         this.contrasenia = contrasenia;
     }
-    public String getNombreApellido() {
-        return nombreApellido;
+    public String getNombre() {
+        return nombre;
     }
-    public void setNombreApellido(String nombreApellido) {
-        this.nombreApellido = nombreApellido;
+    public void setNombreApellido(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getNombreUsuario() {
@@ -61,13 +61,14 @@ public class Usuario {
     @Override
     public String toString() {
         return "\nMi perfil" +
-                "\nNombre: " + nombreApellido  +
+                "\nNombre: " + nombre +
                 "\nNombre de usuario: " + nombreUsuario +
                 "\nCorreo: " + correo +
                 "\nContraseña: " + contrasenia;
     }
     public String imprimirDatosPerfil(){
-        String datosPerfil = "Nombre: " + nombreApellido + "\nNombre de usuario: " + nombreUsuario;
+        String datosPerfil = "Nombre: " + nombre + "\nNombre de usuario: " + nombreUsuario
+                + "\nCorreo: " + correo;
         return datosPerfil;
     }
 }
