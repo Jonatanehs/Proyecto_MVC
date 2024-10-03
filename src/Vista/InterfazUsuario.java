@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import java.util.Scanner;
 
 public class InterfazUsuario {
-    GestionArray listaUsuarios = new GestionArray();
     int opcion = 0;
     Scanner x = new Scanner(System.in);
 
@@ -27,6 +26,7 @@ public class InterfazUsuario {
     public String nombreUsuarioRegis(){
         String nombreUsuario = JOptionPane.showInputDialog("Nombre de usuario: ");
         return nombreUsuario;
+
     }
     public String correoRegis(){
         String correo = JOptionPane.showInputDialog("Correo: ");
@@ -61,7 +61,7 @@ public class InterfazUsuario {
         String actualizarDato = JOptionPane.showInputDialog("¿Qué dato desea actualizar?(nombre, usuario, " +
                 "correo, contraseña)");
         return actualizarDato;
-    }
+}
     public String nuevoNombre(){
         String nombre = JOptionPane.showInputDialog("Ingrese el nombre:");
         return nombre;
