@@ -219,7 +219,8 @@ public class GestionArray {
     public String imprimirPerfil(String nameUser) {
         String perfil = "";
         try {
-            String sql = "SELECT Nombre, Nombre_Usuario, Correo FROM usuario WHERE Nombre_Usuario = ?";
+            String sql = "select Nombre, Nombre_Usuario, Correo from usuario where Nombre_Usuario" +
+                    " = ?";
             ps = conexion.prepareStatement(sql);
             ps.setString(1, nameUser);
             res = ps.executeQuery();
@@ -245,19 +246,18 @@ public class GestionArray {
         String sql = "";
         switch (dato.toLowerCase()) {
             case "nombre":
-                sql = "UPDATE usuario SET Nombre = ? WHERE Nombre_Usuario = ?";
+                sql = "update usuario set Nombre = ? where Nombre_Usuario = ?";
                 break;
             case "usuario":
-                sql = "UPDATE usuario SET Nombre_Usuario = ? WHERE Nombre_Usuario = ?";
+                sql = "update usuario set Nombre_Usuario = ? where Nombre_Usuario = ?";
                 break;
             case "correo":
-                sql = "UPDATE usuario SET Correo = ? WHERE Nombre_Usuario = ?";
+                sql = "update usuario set Correo = ? where Nombre_Usuario = ?";
                 break;
             case "contraseña":
-                sql = "UPDATE usuario SET Contrasenia = ? WHERE Nombre_Usuario = ?";
+                sql = "update usuario set Contrasenia = ? where Nombre_Usuario = ?";
                 break;
             default:
-                vistaUsuario.imprimir("Campo no válido para actualizar.");
                 return false;
         }
         try {
@@ -269,9 +269,8 @@ public class GestionArray {
 
             if (filasActualizadas > 0) {
                 datoActualizado = true;
-                vistaUsuario.imprimir("Datos actualizados correctamente.");
             } else {
-                vistaUsuario.imprimir("No se encontró el usuario o no se actualizó ningún dato.");
+                datoActualizado = false;
             }
 
         } catch (SQLException ex) {
@@ -290,7 +289,7 @@ public class GestionArray {
     public boolean eliminarCuenta(String respuesta, String nombreUser) {
         if (respuesta.equalsIgnoreCase("si")) {
             try {
-                String sql = "DELETE FROM usuario WHERE Nombre_Usuario = ?";
+                String sql = "delete from usuario where Nombre_Usuario = ?";
                 ps = conexion.prepareStatement(sql);
                 ps.setString(1, nombreUser);
 
