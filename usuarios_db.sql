@@ -30,5 +30,6 @@ describe usuario;
 describe contenido;
 
 select * from usuario;
+select * from contenido;
 
 
