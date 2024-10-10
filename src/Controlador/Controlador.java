@@ -264,30 +264,54 @@ public class Controlador {
                                             switch (inicio) {
                                                 case 1:
                                                     String dato = vistaAdmin.actualizar();
+                                                    System.out.println("Buscando título: " + dato);
+
                                                     boolean comprobacion = contenido.comproba(dato);
                                                     if (!comprobacion) {
                                                         vistaAdmin.imprimir("La novedad no existe");
                                                     } else {
                                                         int f = vistaAdmin.cambio();
                                                         String n = vistaAdmin.actualizado();
-                                                        contenido.actualizar(dato, f, n);
-                                                        vistaAdmin.imprimir("Producto actualizado");
+
+                                                        boolean actualizado = contenido.actualizar(dato, f, n);
+                                                        if (actualizado) {
+                                                            vistaAdmin.imprimir("Dato del contenido actualizado");
+                                                        } else {
+                                                            vistaAdmin.imprimir("Error al actualizar el dato del contenido");
+                                                        }
                                                     }
                                                     break;
+
                                                 case 2:
-                                                    String pregunta = vistaAdmin.clave();
                                                     String tit = vistaAdmin.titulo();
-                                                    String subt = vistaAdmin.subtitulo();
-                                                    boolean comprobacio = contenido.comprobar(pregunta);
-                                                    boolean comproba =contenido.comproba(tit);
-                                                    boolean compro = contenido.comproba(subt);
+                                                    //System.out.println("Título a insertar: " +
+                                                    // tit);
+                                                    if (tit == null || tit.trim().isEmpty()) {
+                                                        vistaAdmin.imprimir("El título no puede estar vacío.");
+                                                        break;
+                                                    }
 
+                                                    String descrip = vistaAdmin.descripcion();
+                                                    String autor = vistaAdmin.autor();
+                                                    String url = vistaAdmin.url();
+                                                    String fecha = vistaAdmin.fechaPublic();
+                                                    String tipo = vistaAdmin.tipoContent();
+                                                    String detalle = vistaAdmin.contDetalle();
+                                                    String categ = vistaAdmin.categoria();
 
-                                                    if (!comprobacio || !comproba || !compro) {
-                                                        Administrador ad = new Administrador(tit, subt, vistaAdmin.conten());
-                                                        vistaAdmin.imprimir( contenido.agregar(pregunta, ad));
+                                                    boolean comproba = contenido.comproba(tit);
+
+                                                    if (comproba) {
+                                                        vistaAdmin.imprimir("El contenido ya existe");
                                                     } else {
-                                                        vistaAdmin.imprimir("La pregunta ya existe");
+                                                        Administrador ad = new Administrador(tit, descrip, autor, url, fecha, tipo, detalle, categ);
+                                                        System.out.println("Título al crear Administrador: " + ad.getTitulo());
+                                                        boolean exito = contenido.agregar(ad);
+                                                        if (exito) {
+                                                            vistaAdmin.imprimir("Se agregó el contenido con éxito");
+                                                        } else {
+                                                            vistaAdmin.imprimir("Hubo un problema al agregar el contenido");
+                                                        }
                                                     }
                                                     break;
 
