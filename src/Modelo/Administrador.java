@@ -8,14 +8,20 @@ public class Administrador {
     private String respuesta3;
     private String correcta;
     private  String titulo;
-    private String subtitulo;
-    private  String tema;
+    private String descripcion;
+    private  String autor;
+    private  String url;
+    private  String fecha;
+    private  String tipoCont;
+    private  String detalle;
+    private  String categoria;
     private String tipoUsuario;
 
     public Administrador() {
     }
 
-    public Administrador(String pregunta, String test, String respuesta1, String respuesta2, String respuesta3, String correcta) {
+    public Administrador(String pregunta, String test, String respuesta1, String respuesta2,
+                         String respuesta3, String correcta) {
         this.pregunta = pregunta;
         this.test = test;
         this.respuesta1 = respuesta1;
@@ -23,11 +29,32 @@ public class Administrador {
         this.respuesta3 = respuesta3;
         this.correcta = correcta;
     }
-
-    public Administrador(String titulo, String subtitulo, String tema) {
+    public Administrador(String titulo, String descripcion, String autor, String url, String fecha,
+                         String tipoCont, String detalle, String categoria, String tipoUsuario) {
         this.titulo = titulo;
-        this.subtitulo = subtitulo;
-        this.tema = tema;
+        this.descripcion = descripcion;
+        this.autor = autor;
+        this.url = url;
+        this.fecha = fecha;
+        this.tipoCont = tipoCont;
+        this.detalle = detalle;
+        this.categoria = categoria;
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public Administrador(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Administrador(String tit, String descrip, String autor, String url, String fecha, String tipo, String detalle, String categ) {
+        this.titulo = tit;
+        this.descripcion = descrip;
+        this.autor = autor;
+        this.url = url;
+        this.fecha = fecha;
+        this.tipoCont = tipo;
+        this.detalle = detalle;
+        this.categoria = categ;
     }
 
     public String getTitulo() {
@@ -38,20 +65,68 @@ public class Administrador {
         this.titulo = titulo;
     }
 
-    public String getSubtitulo() {
-        return subtitulo;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setSubtitulo(String subtitulo) {
-        this.subtitulo = subtitulo;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public String getTema() {
-        return tema;
+    public String getAutor() {
+        return autor;
     }
 
-    public void setTema(String tema) {
-        this.tema = tema;
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTipoCont() {
+        return tipoCont;
+    }
+
+    public void setTipoCont(String tipoCont) {
+        this.tipoCont = tipoCont;
+    }
+
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     public String getPregunta() {
@@ -112,10 +187,10 @@ public class Administrador {
                         "\nC. " + respuesta3;
 
     }
-    public String novedades() {
-        return
-                "\n" + titulo +
-                        "\n"+subtitulo  +
-                        "\n" + tema;
-    }
+//    public String novedades() {
+//        return
+//                "\n" + titulo +
+//                        "\n"+subtitulo  +
+//                        "\n" + tema;
+//    }
 }
